@@ -14,7 +14,6 @@
         devShells.default = mkShell {
           packages = [
             python
-            isort
             mypy
             poetry
             ruff

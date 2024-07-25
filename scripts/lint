@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 cd -P "$(dirname "$0")/.."
 ruff check .
+ruff check . --diff

@@ -2,11 +2,13 @@
 cd -P "$(dirname "$0")/.."
 
 if [[ $INSIDE_NIX == "true" ]]; then
+	./scripts/lint
 	if [[ $DEBUG == "true" ]]; then
-		pytest -x --pdb tests/
+		pytest -x --pdb
 	else
-		pytest tests/
+		pytest
 	fi
+	coverage html
 else
 	docker run \
 		--rm -it \

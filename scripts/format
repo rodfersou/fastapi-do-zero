@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 cd -P "$(dirname "$0")/.."
-isort .
+ruff check . --fix
 ruff format .
