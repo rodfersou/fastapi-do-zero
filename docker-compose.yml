@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  db:
+    image: redis/redis-stack-server:latest
+    platform: linux/amd64
+    ports:
+      - "6379:6379"
+    volumes:
+      - db_data:/data
+  api:
+    image: ghcr.io/rodfersou/fastapi-do-zero:latest
+    platform: linux/amd64
+    environment:
+      DEBUG: false
+      REDIS_HOST: db
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+      - nix:/nix
+      - cache:/cache
+    depends_on:
+      - db
+
+volumes:
+  db_data:
+  nix:
+  cache:

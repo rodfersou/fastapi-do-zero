@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+cd -P "$(dirname "$0")/.."
+
+rm -rf $(poetry env info -p)
+./scripts/bootstrap
+if [[ $INSIDE_DOCKER != "true" ]]; then
+	pre-commit install
+fi

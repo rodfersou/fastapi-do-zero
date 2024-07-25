@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+cd -P "$(dirname "$0")/.."
+if [[ $DEBUG == "true" ]]; then
+	poetry install --no-root
+else
+	poetry install --no-root --only main
+fi
+export PATH="$(poetry env info -p)/bin:$PATH"

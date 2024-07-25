@@ -1,0 +1,12 @@
+#!/bin/bash
+cd -P "$(dirname "$0")/.."
+name=$(basename $PWD)
+
+docker buildx build --progress plain --platform linux/amd64 -t $name .
+docker tag $name:latest ghcr.io/rodfersou/$name:latest
+
+PAT=${PAT:-false}
+if [[ $PAT != "false" ]]; then
+	echo $PAT | docker login ghcr.io -u rodfersou --password-stdin
+	docker push ghcr.io/rodfersou/$name:latest
+fi

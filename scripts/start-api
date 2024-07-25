@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+cd -P "$(dirname "$0")/.."
+
+if [[ $INSIDE_NIX == "true" ]]; then
+	./scripts/update || true
+	if [[ $DEBUG == "true" ]]; then
+		flask --app "app.api" run --host=0.0.0.0
+	else
+		gunicorn -w 4 'app.api:create_app()' --bind 0.0.0.0:5000
+	fi
+else
+	docker run \
+		--rm -it \
+		-v .:/app \
+		--mount source=nix,target=/nix \
+		--mount source=cache,target=/cache \
+		-p 5000:5000 \
+		ghcr.io/rodfersou/flask-ninja-redis-api:latest \
+		/app/scripts/start-api
+fi
