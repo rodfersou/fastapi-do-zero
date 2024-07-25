@@ -4,19 +4,21 @@ cd -P "$(dirname "$0")/.."
 TMUX="" \
 	tmux new-session \
 	-e PATH="$PATH" \
+	-e INSIDE_DOCKER="$INSIDE_DOCKER" \
 	-e INSIDE_NIX="$INSIDE_NIX" \
 	-e DEBUG="$DEBUG" '
-  echo ""                           &&
-  echo "http://localhost:5000/docs" &&
+  echo ""                      &&
+  echo "http://localhost:8000" &&
   read
 ' \; split-window -h -p 65 '
-  docker compose up db
+  #docker compose up db
+  read
 ' \; split-window -f -p 80 '
     find app tests -name "*.py" -print | entr -r ./scripts/test
     read
 ' \; split-window -h -p 50 '
   function ctrl_c() {
-    docker compose down
+    #docker compose down
     tmux kill-session
   }
   trap ctrl_c INT

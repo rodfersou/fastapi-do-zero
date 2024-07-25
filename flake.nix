@@ -20,13 +20,14 @@
             ruff
           ] ++ (
             if ("$INSIDE_DOCKER" != "true") then [
-              pre-commit
               entr
+              gh
+              gitnr
               httpie
               jq
               lazygit
+              pre-commit
               ripgrep
-              silver-searcher
               tmux
               tree
             ] else [
