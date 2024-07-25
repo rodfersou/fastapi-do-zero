@@ -1,6 +1,6 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/release-23.11";
+    nixpkgs.url = "github:nixos/nixpkgs/release-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -10,20 +10,20 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         unstable = nixpkgs-unstable.legacyPackages.${system};
-        python = unstable.python312;
+        python = pkgs.python312;
       in
       with pkgs; {
         devShells.default = mkShell {
           name = "dev-environment";
           packages = [
             python
-            unstable.isort
-            unstable.mypy
-            unstable.poetry
-            unstable.ruff
+            isort
+            mypy
+            poetry
+            ruff
           ] ++ (
             if ("$INSIDE_DOCKER" != "true") then [
-              unstable.pre-commit
+              pre-commit
               entr
               httpie
               jq

@@ -1,0 +1,15 @@
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: "Lint"
+        language: system
+        files: ^.*\.py$
+        entry: "./scripts/lint"
+        require_serial: true
+      - id: format
+        name: "Format"
+        language: system
+        files: ^.*\.py$
+        entry: "./scripts/format"
+        require_serial: true
