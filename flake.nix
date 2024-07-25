@@ -21,7 +21,7 @@
             if ("$INSIDE_DOCKER" != "true") then [
               entr
               gh
-              gitnr
+              git-ignore
               httpie
               jq
               lazygit

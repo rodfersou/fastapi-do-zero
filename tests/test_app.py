@@ -6,9 +6,12 @@ from app.app import app
 
 
 def test_root_should_return_ok_and_hello_world():
+    # Arrange
     client = TestClient(app)
 
+    # Act
     response = client.get('/')
 
+    # Assert
     assert response.status_code == HTTPStatus.OK
-    assert response.json() == {'message': 'Olar mundo!'}
+    assert response.json() == {'message': 'Hello World!'}
