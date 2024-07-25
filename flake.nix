@@ -45,6 +45,7 @@
             poetry env use ${python.executable}
         
             export PATH="$(poetry env info -p)/bin:$PATH"
+            export MYPYPATH="$(poetry env info -p)/${python.sitePackages}"
           '';
         };
       }
