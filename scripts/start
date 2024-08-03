@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
 
-TMUX="" \
-	tmux new-session \
+TMUX="" tmux new-session \
 	-e PATH="$PATH" \
 	-e INSIDE_DOCKER="$INSIDE_DOCKER" \
 	-e INSIDE_NIX="$INSIDE_NIX" \

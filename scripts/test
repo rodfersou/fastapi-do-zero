@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
+
+URL=$(git config remote.origin.url)
+USERNAME=${URL%/*}
+USERNAME=${USERNAME#*:}
+REPO=$(basename "$URL")
+REPO=${REPO%.*}
 
 if [[ $INSIDE_NIX == "true" ]]; then
-	./scripts/lint
-	if [[ $DEBUG == "true" ]]; then
-		pytest -x --pdb
-	else
-		pytest
-	fi
-	coverage html
+    ./scripts/lint
+    if [[ $DEBUG == "true" ]]; then
+        pytest -x --pdb
+    else
+        pytest
+    fi
+    coverage html
 else
-	docker run \
-		--rm -it \
-		-v .:/app \
-		--mount source=nix,target=/nix \
-		--mount source=cache,target=/cache \
-		-e DEBUG=false \
-		-p 5000:5000 \
-		ghcr.io/rodfersou/flask-ninja-redis-api:latest \
-		/app/scripts/test
+    docker run --rm -it                    \
+        -v      .:/app                     \
+        --mount source=nix,target=/nix     \
+        --mount source=cache,target=/cache \
+        -e      DEBUG=false                \
+        -p      5000:5000                  \
+        ghcr.io/"$USERNAME"/"$REPO":latest \
+        /app/scripts/test
 fi

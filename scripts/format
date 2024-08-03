@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
+
 ruff check . --fix
 ruff format .

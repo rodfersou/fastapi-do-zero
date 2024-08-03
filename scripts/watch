@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
 
 find app tests -name "*.py" -print | entr -r ./scripts/test

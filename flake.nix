@@ -17,6 +17,7 @@
             mypy
             poetry
             ruff
+            shellcheck
           ] ++ (
             if ("$INSIDE_DOCKER" != "true") then [
               entr

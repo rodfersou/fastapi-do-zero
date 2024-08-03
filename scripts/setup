@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
 
-rm -rf $(poetry env info -p)
+POETRY_HOME=$(poetry env info -p)
+
+rm -rf "$POETRY_HOME"
 ./scripts/bootstrap
 if [[ $INSIDE_DOCKER != "true" ]]; then
 	pre-commit install

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
-cd -P "$(dirname "$0")/.."
+cd -P "$(dirname "$0")/.." || exit
+
+shellcheck scripts/*
 ruff check .
 ruff check . --diff

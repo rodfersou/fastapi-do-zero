@@ -1,12 +1,17 @@
-#!/bin/bash
-cd -P "$(dirname "$0")/.."
-name=$(basename $PWD)
+#!/usr/bin/env bash
+cd -P "$(dirname "$0")/.." || exit
 
-docker buildx build --progress plain --platform linux/amd64 -t $name .
-docker tag $name:latest ghcr.io/rodfersou/$name:latest
+URL=$(git config remote.origin.url)
+USERNAME=${URL%/*}
+USERNAME=${USERNAME#*:}
+REPO=$(basename "$URL")
+REPO=${REPO%.*}
+
+docker buildx build --progress plain --platform linux/amd64 -t "$REPO" .
+docker tag "$REPO":latest ghcr.io/"$USERNAME"/"$REPO":latest
 
 PAT=${PAT:-false}
 if [[ $PAT != "false" ]]; then
-	echo $PAT | docker login ghcr.io -u rodfersou --password-stdin
-	docker push ghcr.io/rodfersou/$name:latest
+    echo "$PAT" | docker login ghcr.io -u "$USERNAME" --password-stdin
+    docker push ghcr.io/"$USERNAME"/"$REPO":latest
 fi
